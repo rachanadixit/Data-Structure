@@ -1,13 +1,10 @@
-
 class hospital:
-    
     def __init__(self, name, disease):
         self.name = name
         self.disease = disease
         self.next = None
 
 class PatientQueue:
-   
     def __init__(self):
         self.head = None 
         self.tail = None
@@ -24,11 +21,29 @@ class PatientQueue:
         if not self.head:
             print("No patients in the queue.")
             return
-        removed = self.head
-        self.head = self.head.next
-        if not self.head:
-            self.tail = None
-        print(f"Removed patient: {removed.name}")
+        
+        name = input("Enter the name of the patient to remove: ")
+        
+        current = self.head
+        previous = None
+        
+        while current:
+            if current.name == name:
+                if previous:
+                    previous.next = current.next
+                else:  
+                    self.head = current.next
+
+                if current == self.tail:  
+                    self.tail = previous
+                
+                print(f"Removed patient: {current.name}")
+                return
+            
+            previous = current
+            current = current.next
+
+        print(f"No patient found with the name: {name}")
 
     def display_queue(self):
         current = self.head
@@ -62,7 +77,12 @@ class PatientQueue:
 
 if __name__ == "__main__":
     queue = PatientQueue()
-    queue.manage_queue()
+    queue.manage_queue()       
+
+
+
+
+        
         
 
 
