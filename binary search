@@ -1,0 +1,78 @@
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class BinarySearch:
+    def __init__(self):             
+        self.root = None
+
+    def insert(self, data):
+        if not self.root:
+            self.root = TreeNode(data)
+        else:
+            self._insert_node(self.root, data)
+    
+    def _insert_node(self, node, data): 
+        if data < node.data:
+            if node.left is None:
+                node.left = TreeNode(data)
+            else:
+                self._insert_node(node.left, data)
+
+        elif data > node.data:
+            if node.right is None:
+                node.right = TreeNode(data)
+            else:
+                self._insert_node(node.right, data)
+
+    def print_tree(self,node,level = 0 , prefix="Root :"):
+        if node is not None:
+            print(" "*(level* 7)+ prefix + str(node.data))
+            if node.left or node.right:
+                if node.left:
+                    self.print_tree(node.left , level+1 , "L---")
+                if node.right:
+                    self.print_tree(node.right , level+1 , "R---")
+
+    def delete(self, node, data):
+        if node is None:
+            return node
+        elif data < node.data:
+            node.left = self.delete(node.left, data)
+        elif data > node.data:
+            node.right = self.delete(node.right, data)
+        else:
+            if node.left is None:
+                temp = node.right
+                node = None
+                return temp
+            elif node.right is None:
+                temp = node.left
+                node = None
+                return temp
+            temp = self.minValueNode(node.right)
+            node.data = temp.data
+            node.right = self.delete(node.right, temp.data)
+        return node
+    
+    # def search(self, node ,data):
+    #     if node is not None:
+    #         if node.data == data:
+    #             return True
+    #         elif data < node.data:
+    #             return self.search(node.left , data)
+    #         else:
+    #             return self.search(node.right , data)
+    #     else :
+    #         return False
+
+    
+if __name__== "__main__":
+    bst = BinarySearch()
+    dataset = [1,2,3,8,7,6,5,1]
+    for data in dataset :
+        bst.insert(data)
+    bst.delete(2)
+    bst.print_tree(bst.root)
